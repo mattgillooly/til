@@ -43,7 +43,32 @@ def build_database(repo_path):
     all_times = created_changed_times(repo_path)
     db = sqlite_utils.Database(repo_path / "tils.db")
     table = db.table("til", pk="path")
-    for filepath in root.glob("*/*.md"):
+    til_files = list(root.glob("*/*.md"))
+    if not til_files:
+        # Ensure table + FTS exist even if there are no TIL entries yet.
+        table.create(
+            {
+                "path": str,
+                "slug": str,
+                "topic": str,
+                "title": str,
+                "url": str,
+                "body": str,
+                "html": str,
+                "summary": str,
+                "created": str,
+                "created_utc": str,
+                "updated": str,
+                "updated_utc": str,
+            },
+            pk="path",
+            if_not_exists=True,
+        )
+        table.enable_fts(
+            ["title", "body"], tokenize="porter", create_triggers=True, replace=True
+        )
+        return
+    for filepath in til_files:
         fp = filepath.open()
         title = fp.readline().lstrip("#").strip()
         body = fp.read().strip()
