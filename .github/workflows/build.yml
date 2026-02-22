@@ -98,6 +98,9 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |-
         s3-credentials put-object til.mattgillooly.com tils.db main/tils.db
+    - name: Verify tils.db is reachable on S3
+      run: |-
+        curl --fail -I https://s3.amazonaws.com/til.mattgillooly.com/tils.db
     - name: Install Fly
       run: |
         curl -L https://fly.io/install.sh | sh

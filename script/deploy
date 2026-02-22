@@ -1,0 +1,19 @@
+#!/bin/bash
+set -euo pipefail
+
+datasette publish fly tils.db \
+  --app mattgillooly-tils \
+  --metadata metadata.yaml \
+  --static static:static \
+  --install datasette-template-sql \
+  --install "datasette-sitemap>=1.0" \
+  --install "datasette-atom>=0.7" \
+  --install datasette-json-html \
+  --install beautifulsoup4 \
+  --install "datasette-debug-asgi>=1.1" \
+  --install "datasette-graphql>=2.2" \
+  --install datasette-block-robots \
+  --install datasette-llm-embed \
+  --install datasette-sqlite-vec \
+  --plugins-dir plugins \
+  --template-dir templates

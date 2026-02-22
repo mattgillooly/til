@@ -11,7 +11,7 @@ TMP_PATH = pathlib.Path(tempfile.gettempdir())
 
 # Change the following tuple manually any time the templates have changed
 # to a point that all of the screenshots need to be re-taken
-# https://github.com/simonw/til/issues/82
+# See upstream issue about screenshot invalidation strategy.
 _decompress = lambda compressed: zlib.decompress(compressed).decode("utf-8")
 SHOT_HASH_ELEMENTS = (
     # Compressed HTML from the last time this ran against the actual templates
